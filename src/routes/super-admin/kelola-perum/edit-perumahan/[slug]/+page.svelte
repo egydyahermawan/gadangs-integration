@@ -11,6 +11,7 @@
 	import ApiController from '../../../../../ApiController'
 	
 	let form= {
+		id_perumahan: idPerumahan,
 		kode: '',
 		nama: '',
 		alamat: '',
@@ -24,6 +25,7 @@
 	
 	function handleSubmit() {
 		const formData = new FormData();
+		formData.append('id_perumahan', form.id_perumahan);
 		formData.append('kode', form.kode);
 		formData.append('nama', form.nama);
 		formData.append('alamat', form.alamat);
@@ -37,7 +39,7 @@
 		let postPerumahan = () => {
 			ApiController({
 				method: "POST",
-				endpoint: `perumahan/add`,
+				endpoint: `perumahan/edit/${idPerumahan}`,
 				datas: formData
 			}).then(response => {
 				console.log(response)
@@ -135,7 +137,7 @@
 					<div class="flex flex-end-horizontal w-60">
 						<div class="w-50 flex flex-gap-regular flex-end-horizontal">
 							<button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button>
-							<button class="btn-fill flex flex-center-vertical flex-gap-small"><span>Simpan Perumahan</span></button>
+							<button class="btn-fill flex flex-center-vertical flex-gap-small" on:click={handleSubmit}><span>Simpan Perumahan</span></button>
 						</div>
 					</div>
 				</div>

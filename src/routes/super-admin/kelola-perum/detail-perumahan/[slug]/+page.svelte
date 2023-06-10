@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="flex flex-gap-regular">
-						<a href="/super-admin/nup/edit-nup" class="no-decor"><button class="btn-fill-warning flex flex-center-vertical flex-gap-small"><img src="/images/icons/Edit_White.svg"> <span>Edit</span></button></a>
+						<a href="/super-admin/kelola-perum/edit-perumahan/{idPerumahan}" class="no-decor"><button class="btn-fill-warning flex flex-center-vertical flex-gap-small"><img src="/images/icons/Edit_White.svg"> <span>Edit</span></button></a>
 						<a href="/super-admin/nup/detail-nup" class="no-decor"><button class="btn-fill-danger flex flex-center-vertical flex-gap-small"><img src="/images/icons/Trash_White.svg"> <span>Hapus</span></button></a>
 					</div>
 				</div>
@@ -118,7 +118,7 @@
 							</select>
 						</div>
 						<div class="w-40 flex flex-end-horizontal">
-							<a href="/super-admin/kelola-perum/detail-perumahan/[slug]/tambah-unit" class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
+							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-unit/{perumahan.id_perumahan}" propValue={perumahan.id_perumahan} class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
 						</div>
 					</div>
 					<div class="scroll-x flex flex-direction-col flex-gap-regular">
@@ -261,7 +261,7 @@
 								<select class="select-sort">
 									<option>10</option>
 								</select>
-								<div class="text-display-sort">dari <span class="bold-number">28</span> data Rekap Data</div>
+								<div class="text-display-sort">dari <span class="bold-number">{daftar_unit.length}</span> data Rekap Data</div>
 							</div>
 							<div class="flex flex-gap-regular flex-center-vertical">
 								<div class="flex flex-center-vertical flex-center-horizontal border-pagination"><img src="/images/icons/Arrow_Left.svg"></div>

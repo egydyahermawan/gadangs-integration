@@ -1,12 +1,17 @@
 <script type="text/javascript">
-	import Sidebar from '../../../../../../components/sidebar.svelte'
-	import Navbar from '../../../../../../components/navbar.svelte'
+	import Sidebar from '../../../../../../../components/sidebar.svelte'
+	import Navbar from '../../../../../../../components/navbar.svelte'
 	import { onMount } from 'svelte';
 	import {fly, scale} from 'svelte/transition'
 
-	import ApiController from '../../../../../../ApiController'
+	import ApiController from '../../../../../../../ApiController'
+	export let data
+	
+	let idPerumahan = data.params.slug
+	
 	let form= {
 		no_spk: '',
+		id_perumahan: idPerumahan,
 		target_spk: '',
 		mandor: '',
 		blok: '',
@@ -30,6 +35,7 @@
 	function handleSubmit() {
 		const formData = new FormData();
 		formData.append('no_spk', form.no_spk);
+		formData.append('id_perumahan', form.id_perumahan);
 		formData.append('target_spk', form.target_spk);
 		formData.append('mandor', form.mandor);
 		formData.append('blok', form.blok);
