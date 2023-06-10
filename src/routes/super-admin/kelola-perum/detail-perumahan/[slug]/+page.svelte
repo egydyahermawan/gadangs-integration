@@ -279,7 +279,7 @@
 								<input type="text" placeholder="Cari Blok" class="input-col-2 w-50">
 							</div>
 							<div class="w-40 flex flex-end-horizontal">
-								<a href="/super-admin/kelola-perum/detail-perumahan/tambah-blok" class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Blok</span></button></a>
+								<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-blok" class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Blok</span></button></a>
 							</div>
 						</div>
 						<div class="scroll-x flex flex-direction-col flex-gap-regular">
