@@ -7,6 +7,7 @@
 	export let data
 	
 	let idPerumahan = data.params.slug 
+	let resultAPI
 
 	import ApiController from '../../../../../ApiController'
 	
@@ -54,7 +55,8 @@
 				method: "GET",
 				endpoint: `perumahan/${idPerumahan}`
 			}).then(response => {
-				form = response.data.data
+				resultAPI = response.data.data
+				form = resultAPI.unit
 				console.log(form)
 			})
 	}

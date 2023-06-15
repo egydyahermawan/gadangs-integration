@@ -9,15 +9,21 @@
 	export let data
 	
 	let idPerumahan = data.params.slug 
-	let perumahan = []
+	let resultAPI
+	let unit = []
+	let listBlok = []
 	let daftar_unit = []
 	let getDetailPerumahan = () => {
 		ApiController({
 			method: "GET",
 			endpoint: `perumahan/${idPerumahan}`
 		}).then(response => {
-			perumahan = response.data.data
-			daftar_unit = perumahan.daftar_unit
+			resultAPI= response.data.data
+			unit = resultAPI.unit
+			listBlok = resultAPI.blok
+			console.log(unit)
+			console.log(listBlok)
+			daftar_unit = unit.daftar_unit
 		})
 	}
 
@@ -55,36 +61,36 @@
 							<div class="w-50 flex flex-direction-col flex-gap-regular">
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Nama Perusahaan</div>
-									<div class="content-card-detail">{perumahan.nama}</div>
+									<div class="content-card-detail">{unit.nama}</div>
 								</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Alamat Perumahan</div>
-									<div class="content-card-detail">{perumahan.alamat}</div>
+									<div class="content-card-detail">{unit.alamat}</div>
 								</div>
 								<div class="flex w-100">
 									<div class="flex flex-direction-col w-50">
 										<div class="caption-card-detail">Provinsi</div>
-										<div class="content-card-detail">{perumahan.provinsi}</div>
+										<div class="content-card-detail">{unit.provinsi}</div>
 									</div>
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Kode Pos</div>
-										<div class="content-card-detail">{perumahan.kodepos}</div>
+										<div class="content-card-detail">{unit.kodepos}</div>
 									</div>
 								</div>
 							</div>
 							<div class="w-50 flex flex-direction-col flex-gap-regular">
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Singkatan Perumahan</div>
-									<div class="content-card-detail">{perumahan.kode}</div>
+									<div class="content-card-detail">{unit.kode}</div>
 								</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Telepon</div>
-									<div class="content-card-detail">{perumahan.telepon}</div>
+									<div class="content-card-detail">{unit.telepon}</div>
 								</div>
 								<div class="flex w-100">
 									<div class="flex flex-direction-col w-50">
 										<div class="caption-card-detail">Fax</div>
-										<div class="content-card-detail">{perumahan.fax}</div>
+										<div class="content-card-detail">{unit.fax}</div>
 									</div>
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Site Plan</div>
@@ -118,7 +124,7 @@
 							</select>
 						</div>
 						<div class="w-40 flex flex-end-horizontal">
-							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-unit/{perumahan.id_perumahan}" propValue={perumahan.id_perumahan} class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
+							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-unit/{unit.id_perumahan}" propValue={unit.id_perumahan} class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
 						</div>
 					</div>
 					<div class="scroll-x flex flex-direction-col flex-gap-regular">
@@ -303,14 +309,14 @@
 									</div>
 								</div>
 							</div>
-							{#each daftar_unit as unit_blok}
+							{#each listBlok as unit_blok}
 							<div class="card-head w-100 height-fit">
 								<div class="flex">
 									<div class="flex flex-gap-small flex-center-vertical w-15 no-border-table">
 										<div class="text-drop-card">{unit_blok.blok}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">{perumahan.alamat}</div>
+										<div class="text-drop-card">{unit_blok.alamat}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
 										<div class="text-drop-card">{unit_blok.stok_unit}</div>
