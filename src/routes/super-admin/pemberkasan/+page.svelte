@@ -4,6 +4,23 @@
 	import { onMount } from 'svelte';
 	import {fly, scale} from 'svelte/transition'
 	
+	import ApiController from '../../../ApiController'
+
+	let pemberkasanList = []
+
+	let getPemberkasanList = () => {
+		ApiController({
+			method: "GET",
+			endpoint: `pemberkasan`
+		}).then(response => {
+			pemberkasanList = response.data.data
+			console.log(pemberkasanList)
+		})
+	}
+
+	onMount(() => {
+		getPemberkasanList()
+	})
 </script>
 
 <div id="after-login-layout">
@@ -85,42 +102,43 @@
 								</div>
 							</div>
 						</div>
+						{#each pemberkasanList as pemberkasan}
 						<a href="/super-admin/pemberkasan/detail-pemberkasan" class="no-decor">
 							<div class="card-head w-content height-fit">
 								<div class="flex">
 									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
+										<div class="text-drop-card">{pemberkasan.nup}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
+										<div class="text-drop-card">{pemberkasan.client.nama_client}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
+										<div class="text-drop-card">{pemberkasan.perumahan}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
+										<div class="text-drop-card">{pemberkasan.lead_marketing}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
+										<div class="text-drop-card">{pemberkasan.marketing}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
+										<div class="text-drop-card">{pemberkasan.tanggal_submit}</div>
 									</div>
 									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
 										<div class="flex w-100 flex-center-vertical">
 											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
+												<div class="text-drop-card padding-spec-nup-1 ">{pemberkasan.tanggal_pembayaran}</div>
 											</div>
 											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
+												<div class="text-drop-card padding-spec-nup-1">{pemberkasan.dp}</div>
 											</div>
 										</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
+										<div class="text-approve">{pemberkasan.status_finance}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
+										<div class="text-drop-card">{pemberkasan.keterangan}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
 										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
@@ -129,216 +147,7 @@
 								</div>
 							</div>
 						</a>
-							<div class="card-head w-content height-fit">
-								<div class="flex">
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
-									</div>
-									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
-										<div class="flex w-100 flex-center-vertical">
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
-											</div>
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
-								</div>
-							</div>
-														<div class="card-head w-content height-fit">
-								<div class="flex">
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
-									</div>
-									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
-										<div class="flex w-100 flex-center-vertical">
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
-											</div>
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
-								</div>
-							</div>
-														<div class="card-head w-content height-fit">
-								<div class="flex">
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
-									</div>
-									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
-										<div class="flex w-100 flex-center-vertical">
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
-											</div>
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
-								</div>
-							</div>
-														<div class="card-head w-content height-fit">
-								<div class="flex">
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
-									</div>
-									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
-										<div class="flex w-100 flex-center-vertical">
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
-											</div>
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
-								</div>
-							</div>
-							<div class="card-head w-content height-fit">
-								<div class="flex">
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<div class="text-drop-card">30001</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Suryadi</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">GPC</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">Zaenal Muharom</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-drop-card">25 Apr 2018</div>
-									</div>
-									<div class="flex flex-direction-col flex-center-vertical flex-center-horizontal w-30">
-										<div class="flex w-100 flex-center-vertical">
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1 ">19 Apr 2018</div>
-											</div>
-											<div class="flex flex-center-horizontal flex-center-vertical w-50">
-												<div class="text-drop-card padding-spec-nup-1">Rp. 1.000.000</div>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-20 no-border-table">
-										<div class="text-approve">Approve</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-40 no-border-table">
-										<div class="text-drop-card">Sedang proses pemberkasan</div>
-									</div>
-									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
-										<a href="/super-admin/nup/edit-nup" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
-								</div>
-							</div>
+						{/each}
 					</div>
 					<div class="card w-100 height-fit">
 						<div class="flex flex-between-horizontal">
