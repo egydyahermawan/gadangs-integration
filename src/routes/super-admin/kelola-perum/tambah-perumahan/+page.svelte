@@ -116,7 +116,8 @@
 					</div>
 					<div class="flex flex-end-horizontal w-60">
 						<div class="w-50 flex flex-gap-regular flex-end-horizontal">
-							<button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button>
+							<!-- <button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button> -->
+							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}" class="no-decor"><button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button></a>
 							<button class="btn-fill flex flex-center-vertical flex-gap-small" on:click={handleSubmit}><span>Simpan Perumahan</span></button>
 						</div>
 					</div>

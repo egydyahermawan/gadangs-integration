@@ -1,14 +1,13 @@
 <script type="text/javascript">
-	import Sidebar from '../../../../../../../components/sidebar.svelte'
-	import Navbar from '../../../../../../../components/navbar.svelte'
+	import Sidebar from '../../../../../../components/sidebar.svelte'
+	import Navbar from '../../../../../../components/navbar.svelte'
 	import { onMount } from 'svelte';
 	import {fly, scale} from 'svelte/transition'
 
-	import ApiController from '../../../../../../../ApiController'
+	import ApiController from '../../../../../../ApiController'
 	export let data
 	
 	let idPerumahan = data.params.slug
-	
 	let form= {
 		no_spk: '',
 		id_perumahan: idPerumahan,
@@ -201,7 +200,7 @@
 					</div>
 					<div class="flex flex-end-horizontal w-70">
 						<div class="w-40 flex flex-gap-regular flex-end-horizontal">
-							<a href="/super-admin/kelola-perum/detail-perumahan" class="no-decor"><button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button></a>
+							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}" class="no-decor"><button class="btn-outline flex flex-center-vertical flex-gap-small"><span>Batal</span></button></a>
 							<button class="btn-fill flex flex-center-vertical flex-gap-small" on:click={handleSubmit}><span>Simpan Unit</span></button>
 						</div>
 					</div>

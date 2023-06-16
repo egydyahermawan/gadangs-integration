@@ -18,6 +18,15 @@
 		})
 	}
 
+	let deletePerumahanList = (index) => {
+		ApiController({
+			method: "POST",
+			endpoint: `perumahan/${index}/delete`
+		}).then(response => {
+			perumahanList = response.data.data
+		})
+	}
+
 	function filterByKode() {
 		filterPerumahanByNama = perumahanList.filter((item) => {
 			return item.kode.toLowerCase().includes(keywordKode.toLowerCase())
@@ -29,6 +38,14 @@
 	})
 
 </script>
+<style>
+	.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+</style>
 
 <div id="after-login-layout">
 	<Navbar/>
@@ -149,7 +166,9 @@
 										<a href="/super-admin/kelola-perum/edit-perumahan/{perumahan.id_perumahan}">
 											<img src="/images/icons/Edit.svg" />
 										</a>
-										<img src="/images/icons/Delete.svg">
+										<button class="delete-button" on:click={() => deletePerumahanList(perumahan.id_perumahan)}>
+											<img src="/images/icons/Delete.svg">
+										</button>
 									</div>
 								</div>
 							</div>

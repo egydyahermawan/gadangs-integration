@@ -21,9 +21,18 @@
 			resultAPI= response.data.data
 			unit = resultAPI.unit
 			listBlok = resultAPI.blok
-			console.log(unit)
-			console.log(listBlok)
+			// console.log(unit)
+			// console.log(listBlok)
 			daftar_unit = unit.daftar_unit
+		})
+	}
+
+	let deletePerumahanList = (index) => {
+		ApiController({
+			method: "POST",
+			endpoint: `perumahan/${index}/delete`
+		}).then(response => {
+			perumahanList = response.data.data
 		})
 	}
 
@@ -49,7 +58,12 @@
 					</div>
 					<div class="flex flex-gap-regular">
 						<a href="/super-admin/kelola-perum/edit-perumahan/{idPerumahan}" class="no-decor"><button class="btn-fill-warning flex flex-center-vertical flex-gap-small"><img src="/images/icons/Edit_White.svg"> <span>Edit</span></button></a>
-						<a href="/super-admin/nup/detail-nup" class="no-decor"><button class="btn-fill-danger flex flex-center-vertical flex-gap-small"><img src="/images/icons/Trash_White.svg"> <span>Hapus</span></button></a>
+						<a href="/super-admin/kelola-perum/" class="no-decor">
+							<button on:click={() => deletePerumahanList(idPerumahan)} class="btn-fill-danger flex flex-center-vertical flex-gap-small">
+								<img src="/images/icons/Trash_White.svg">
+								<span>Hapus</span>
+							</button>
+						</a>
 					</div>
 				</div>
 				<div class="card w-100 flex flex-gap-semi-large">
@@ -124,7 +138,7 @@
 							</select>
 						</div>
 						<div class="w-40 flex flex-end-horizontal">
-							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-unit/{unit.id_perumahan}" propValue={unit.id_perumahan} class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
+							<a href="/super-admin/kelola-perum/detail-perumahan/{idPerumahan}/tambah-unit/" class="no-decor"><button class="btn-fill flex flex-center-vertical flex-gap-small"><img src="/images/icons/Add_Plus.svg"> <span>Tambah Unit</span></button></a>
 						</div>
 					</div>
 					<div class="scroll-x flex flex-direction-col flex-gap-regular">
@@ -253,9 +267,11 @@
 									<div class="text-approve">Terjual</div>
 								</div>
 								<div class="flex flex-gap-small flex-center-vertical w-15 border-non-separate">
-										<a href="/super-admin/kelola-perum/detail-perumahan/edit-unit" class="no-decor"><img src="/images/icons/Edit.svg"></a>
-										<img src="/images/icons/Delete.svg">
-									</div>
+										<a href="/super-admin/kelola-perum/detail-perumahan/{unit.id_perumahan}/edit-unit/" class="no-decor">
+											<img src="/images/icons/Edit.svg">
+										</a>
+											<img src="/images/icons/Delete.svg">
+								</div>
 							</div>
 						</div>
 						{/each}
@@ -319,10 +335,10 @@
 										<div class="text-drop-card">{unit_blok.alamat}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-25 no-border-table">
-										<div class="text-drop-card">{unit_blok.stok_unit}</div>
+										<div class="text-drop-card">{unit_blok.jumlah_unit}</div>
 									</div>
 									<div class="flex flex-gap-small flex-center-vertical w-10 border-non-separate">
-											<a href="/super-admin/kelola-perum/detail-perumahan/edit-blok" class="no-decor"><img src="/images/icons/Edit.svg"></a>
+											<a href="/super-admin/kelola-perum/detail-perumahan/{unit.id_perumahan}/edit-blok/" class="no-decor"><img src="/images/icons/Edit.svg"></a>
 											<img src="/images/icons/Delete.svg">
 										</div>
 								</div>
