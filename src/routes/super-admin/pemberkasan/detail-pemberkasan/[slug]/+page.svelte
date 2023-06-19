@@ -1,9 +1,45 @@
 <script type="text/javascript">
-	import Sidebar from '../../../../components/sidebar.svelte'
-	import Navbar from '../../../../components/navbar.svelte'
+	import Sidebar from '../../../../../components/sidebar.svelte'
+	import Navbar from '../../../../../components/navbar.svelte'
 	import { onMount } from 'svelte';
 	import {fly, scale} from 'svelte/transition'
-	
+	import ApiController from '../../../../../ApiController'
+	export let data
+
+	let idPerumahan = data.params.slug 
+	let pemberkasan = []
+	let konfirmasi_pesanan = []
+	let unit_pesanan = []
+	let informasi_pemesan = []
+	let informasi_marketing = []
+	let harga = []
+	let berkas = []
+	let skpur = []
+	let sp3ur = []
+	let pembayaran_dp = []
+	console.log(idPerumahan)
+
+	let getDetailPemberkasan = () => {
+		ApiController({
+			method: "GET",
+			endpoint: `pemberkasan/${idPerumahan}`
+		}).then(response => {
+			pemberkasan = response.data.data
+			konfirmasi_pesanan = pemberkasan.informasi_konfirmasi_pesanan
+			informasi_pemesan = konfirmasi_pesanan.informasi_pemesan
+			unit_pesanan = pemberkasan.pilihan_unit
+			informasi_marketing = konfirmasi_pesanan.informasi_marketing
+			harga = konfirmasi_pesanan.harga
+			berkas = pemberkasan.berkas
+			skpur = berkas.skpur
+			sp3ur = berkas.sp3ur
+			pembayaran_dp = pemberkasan.pembayaran_dp
+			console.log(pemberkasan)
+		})
+	}
+	onMount(() => {
+		getDetailPemberkasan()
+	})
 </script>
 
 <div id="after-login-layout">
@@ -33,18 +69,32 @@
 					<div class="w-60 flex flex-direction-col flex-gap-large">
 						<div class="flex flex-gap-regular">
 							<div class="w-50 flex flex-direction-col flex-gap-small">
-								<div class="main-title-card-detail">Gria Esma Cicalengka</div>
+								<div class="main-title-card-detail">{pemberkasan.perumahan}</div>
 								<div class="main-sub-title-card-detail">Nomor Urut Pemesan: 70081</div>
 							</div>
 							<div class="w-50 flex flex-gap-regular">
+								{#if pemberkasan.status_approval_ho === "pending"}
+								<div class="label-pending flex flex-center-horizontal flex-gap-small">
+									<span>Pending HO</span>
+									<img src="/images/icons/Check_White.svg">
+								</div>
+								{:else if pemberkasan.status_approval_ho === "success"}
 								<div class="label-success flex flex-center-horizontal flex-gap-small">
 									<span>Approved HO</span>
 									<img src="/images/icons/Check_White.svg">
 								</div>
+								{/if}
+								{#if pemberkasan.status_approval_finance === "pending"}
+								<div class="label-pending flex flex-center-horizontal flex-gap-small">
+									<span>Pending Finance</span>
+									<img src="/images/icons/Check_White.svg">
+								</div>
+								{:else if pemberkasan.status_approval_finance === "success"}
 								<div class="label-success flex flex-center-horizontal flex-gap-small">
 									<span>Approved Finance</span>
 									<img src="/images/icons/Check_White.svg">
 								</div>
+								{/if}
 							</div>
 						</div>
 						<div class="flex flex-gap-regular">
@@ -52,48 +102,48 @@
 								<div class="secondary-title-card-detail">Pengajuan Unit</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Tipe Pengajuan (KPR/KPA)</div>
-									<div class="content-card-detail">Subsidi</div>
+									<div class="content-card-detail">{pemberkasan.tipe_pengajuan}</div>
 								</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Tanggal Submit</div>
-									<div class="content-card-detail">25 April 2018</div>
+									<div class="content-card-detail">{pemberkasan.tanggal_submit}</div>
 								</div>
 								<div class="flex w-100">
 									<div class="flex flex-direction-col w-50">
 										<div class="caption-card-detail">Harga Unit</div>
-										<div class="content-card-detail">Rp. 500.000.000</div>
+										<div class="content-card-detail">{unit_pesanan.harga_unit}</div>
 									</div>
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Versi Price List</div>
-										<div class="content-card-detail">V.2018.04.14</div>
+										<div class="content-card-detail">{pemberkasan.versi_pricelist}</div>
 									</div>
 								</div>
 								<div class="flex flex-direction-col flex-gap-semi-small">
 									<div class="caption-card-detail">Pilihan Unit</div>
 									<div class="data-perum-detail flex flex-direction-col flex-gap-regular">
-										<div class="content-card-detail">Alternatif 1</div>
+										<div class="content-card-detail">{unit_pesanan.label}</div>
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">Jenis Bangunan</div>
-											<div class="content-card-detail">Perumahan</div>
+											<div class="content-card-detail">{unit_pesanan.jenis_bangunan}</div>
 										</div>
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Blok</div>
-												<div class="content-card-detail">A2</div>
+												<div class="content-card-detail">{unit_pesanan.tower_blok}</div>
 											</div>
 											<div class="flex flex-direction-col">
 												<div class="caption-card-detail">Nomor</div>
-												<div class="content-card-detail">02</div>
+												<div class="content-card-detail">{unit_pesanan.nomor}</div>
 											</div>
 										</div>
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Lantai</div>
-												<div class="content-card-detail">1 Lantai</div>
+												<div class="content-card-detail">{unit_pesanan.lantai} Lantai</div>
 											</div>
 											<div class="flex flex-direction-col">
 												<div class="caption-card-detail">Tipe</div>
-												<div class="content-card-detail">35/66 m²</div>
+												<div class="content-card-detail">{unit_pesanan.tipe_perumahan}</div>
 											</div>
 										</div>
 									</div>
@@ -103,11 +153,11 @@
 								<div class="secondary-title-card-detail">Marketing</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Lead Marketing</div>
-									<div class="content-card-detail">Zaenal Muhtarom</div>
+									<div class="content-card-detail">{pemberkasan.lead_marketing}</div>
 								</div>
 								<div class="flex flex-direction-col">
 									<div class="caption-card-detail">Marketing</div>
-									<div class="content-card-detail">Zaenal Muhtarom</div>
+									<div class="content-card-detail">{pemberkasan.marketing}</div>
 								</div>
 								<div class="card-secondary flex flex-direction-col flex-gap-semi-small">
 									<div class="caption-card-detail">Dokumen Pendukung</div>
@@ -135,15 +185,15 @@
 									<div class="flex w-100">
 										<div class="flex flex-direction-col w-15">
 											<div class="caption-card-detail">Nomor NUP</div>
-											<div class="content-card-detail">70081</div>
+											<div class="content-card-detail">{konfirmasi_pesanan.nomor_nup}</div>
 										</div>
 										<div class="flex flex-direction-col w-20">
 											<div class="caption-card-detail">Tanggal NUP / Booking</div>
-											<div class="content-card-detail">2 Jul 2020</div>
+											<div class="content-card-detail">{konfirmasi_pesanan.tanggal_booking}</div>
 										</div>
 										<div class="flex flex-direction-col w-20">
 											<div class="caption-card-detail">Tanggal Pemesanan Unit</div>
-											<div class="content-card-detail">2 Jul 2020</div>
+											<div class="content-card-detail">{konfirmasi_pesanan.tanggal_pemesanan_unit}</div>
 										</div>
 									</div>
 								</div>
@@ -156,7 +206,7 @@
 									<div class="w-50">
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">Nama Lengkap Pemesan</div>	
-											<div class="content-card-detail">Yogi Pasha</div>
+											<div class="content-card-detail">{informasi_pemesan.nama_lengkap}</div>
 										</div>
 									</div>
 								</div>
@@ -164,13 +214,13 @@
 									<div class="w-50">
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">No. Handphone</div>	
-											<div class="content-card-detail">0819XXXXXXXX</div>
+											<div class="content-card-detail">{informasi_pemesan.no_hp}</div>
 										</div>
 									</div>
 									<div class="w-50">
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">Email</div>	
-											<div class="content-card-detail">yogi.pasha@test.com</div>
+											<div class="content-card-detail">{informasi_pemesan.email}</div>
 										</div>
 									</div>
 								</div>
@@ -181,13 +231,13 @@
 									<div class="w-50">
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">Head Marketing</div>	
-											<div class="content-card-detail">Zaenal Muhtarom</div>
+											<div class="content-card-detail">{informasi_marketing.lead_marketing}</div>
 										</div>
 									</div>
 									<div class="w-50">
 										<div class="flex flex-direction-col">
 											<div class="caption-card-detail">Marketing</div>	
-											<div class="content-card-detail">Zaenal Muhtarom</div>
+											<div class="content-card-detail">{informasi_marketing.marketing}</div>
 										</div>
 									</div>
 								</div>
@@ -199,13 +249,13 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Blok Rumah</div>	
-										<div class="content-card-detail">A2</div>
+										<div class="content-card-detail">{unit_pesanan.tower_blok}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Nomor Rumah</div>	
-										<div class="content-card-detail">19</div>
+										<div class="content-card-detail">{unit_pesanan.nomor}</div>
 									</div>
 								</div>
 								<div class="w-20">
@@ -223,7 +273,7 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Tipe</div>	
-										<div class="content-card-detail">35/66</div>
+										<div class="content-card-detail">{unit_pesanan.tipe_perumahan}</div>
 									</div>
 								</div>
 							</div>
@@ -234,7 +284,7 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Cara Bayar</div>	
-										<div class="content-card-detail">KPR Subsidi</div>
+										<div class="content-card-detail">{harga.metode_pembayaran}</div>
 									</div>
 								</div>
 							</div>
@@ -242,19 +292,19 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Versi Pricelist</div>	
-										<div class="content-card-detail">V.2020.01.01</div>
+										<div class="content-card-detail">{harga.versi_pricelist}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Harga Jual</div>	
-										<div class="content-card-detail">Rp. 150.500.000</div>
+										<div class="content-card-detail">{harga.harga_penjualan}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Discount</div>	
-										<div class="content-card-detail">-</div>
+										<div class="content-card-detail">{harga.discount}</div>
 									</div>
 								</div>
 								<div class="w-20">
@@ -274,13 +324,13 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Booking Fee</div>	
-										<div class="content-card-detail">Rp. 1.000.000</div>
+										<div class="content-card-detail">{harga.booking_fee}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Jatuh Tempo Booking Fee</div>	
-										<div class="content-card-detail">30 Juni 2020</div>
+										<div class="content-card-detail">{harga.jatuh_tempo_booking_fee}</div>
 									</div>
 								</div>
 								<div class="w-20">
@@ -292,7 +342,7 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Jatuh Tempo Down Payment</div>	
-										<div class="content-card-detail">-</div>
+										<div class="content-card-detail">{harga.jatuh_tempo_down_payment}</div>
 									</div>
 								</div>
 							</div>
@@ -300,31 +350,31 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">SP3K Disetujui Oleh</div>	
-										<div class="content-card-detail">Bank BTN</div>
+										<div class="content-card-detail">{harga.sp3k_disetujui_oleh}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Tanggal Jatuh Tempo</div>	
-										<div class="content-card-detail">Keputusan Bank</div>
+										<div class="content-card-detail">{harga.tanggal_jatuh_tempo}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Nominal Disetujui Bank</div>	
-										<div class="content-card-detail">Rp. 150.500.000</div>
+										<div class="content-card-detail">{harga.nominal_disetujui_bank}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Maks. Kekurangan Plafond KPR</div>	
-										<div class="content-card-detail">Tergantung Plafond SP3k</div>
+										<div class="content-card-detail">{harga.maks_kekurangan_plafond_kpr}</div>
 									</div>
 								</div>
 								<div class="w-20">
 									<div class="pl-pemberkasan flex flex-direction-col">
 										<div class="caption-card-detail">Tanggal Jatuh Tempo</div>	
-										<div class="content-card-detail">7 Hari sejak SP3k</div>
+										<div class="content-card-detail">{harga.tanggal_jatuh_tempo_maks_kekurangan_plafond_kpr}</div>
 									</div>
 								</div>
 							</div>
@@ -332,7 +382,7 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Maks. Biaya Notaris (1x)</div>	
-										<div class="content-card-detail">Rp. 9.800.000</div>
+										<div class="content-card-detail">{harga.maks_biaya_notaris}</div>
 									</div>
 								</div>
 								<div class="w-20">
@@ -344,7 +394,7 @@
 								<div class="w-20">
 									<div class="flex flex-direction-col">
 										<div class="caption-card-detail">Maks. Pelunasan Akad KPR</div>	
-										<div class="content-card-detail">Rp. 150.500.000</div>
+										<div class="content-card-detail">{harga.maks_pelunasan_akad_kpr}</div>
 									</div>
 								</div>
 								<div class="w-20">
@@ -369,11 +419,16 @@
 									<div class="flex w-100">
 										<div class="flex flex-direction-col w-15">
 											<div class="caption-card-detail">Pengajuan Ke</div>
-											<div class="content-card-detail">Bank</div>
+											<div class="content-card-detail">{berkas.pengajuan_ke}</div>
 										</div>
 										<div class="flex flex-direction-col w-10">
 											<div class="caption-card-detail">Kredit</div>
-											<div class="content-card-detail-success">Ya</div>
+											{#if berkas.is_kredit == 0}
+												<div class="content-card-detail-success">Tidak</div>
+											{:else}
+												<div class="content-card-detail-success">Ya</div>
+											{/if}
+											<!-- <div class="content-card-detail-success">Ya</div> -->
 										</div>
 										<div class="flex flex-direction-col w-10">
 											<div class="caption-card-detail">Proses Kredit</div>
@@ -505,11 +560,11 @@
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Nomor Surat</div>
-												<div class="content-card-detail">xx.xx.xx-xxxx/xx</div>
+												<div class="content-card-detail">{skpur.nomor_surat}</div>
 											</div>
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Tanggal Surat</div>
-												<div class="content-card-detail">17 Mar 2023</div>
+												<div class="content-card-detail">{skpur.tanggal_surat}</div>
 											</div>
 										</div>
 									</div>
@@ -540,11 +595,11 @@
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Nomor Surat</div>
-												<div class="content-card-detail">xx.xx.xx-xxxx/xx</div>
+												<div class="content-card-detail">{sp3ur.nomor_surat}</div>
 											</div>
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Tanggal Surat</div>
-												<div class="content-card-detail">17 Mar 2023</div>
+												<div class="content-card-detail">{sp3ur.tanggal_surat}</div>
 											</div>
 										</div>
 									</div>
@@ -574,31 +629,31 @@
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Nominal Down Payment</div>
-												<div class="content-card-detail">Rp. 1.000.000</div>
+												<div class="content-card-detail">{pembayaran_dp.nominal}</div>
 											</div>
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Metode Pembayaran</div>
-												<div class="content-card-detail">Transfer</div>
+												<div class="content-card-detail">{pembayaran_dp.metode_pembayaran}</div>
 											</div>
 										</div>
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Nama Bank</div>
-												<div class="content-card-detail">Bank Mandiri</div>
+												<div class="content-card-detail">{pembayaran_dp.nama_bank}</div>
 											</div>
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Nomor Rekening</div>
-												<div class="content-card-detail">XXXXXXXXXXXXX</div>
+												<div class="content-card-detail">{pembayaran_dp.no_rek}</div>
 											</div>
 										</div>
 										<div class="flex w-100">
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Tanggal Pembayaran</div>
-												<div class="content-card-detail">19 April 2018</div>
+												<div class="content-card-detail">{pembayaran_dp.tanggal_pembayaran}</div>
 											</div>
 											<div class="flex flex-direction-col w-50">
 												<div class="caption-card-detail">Status Pembayaran</div>
-												<div class="content-card-detail-pending">Pending</div>
+												<div class="content-card-detail-pending">{pembayaran_dp.status_pembayaran}</div>
 											</div>
 										</div>
 									</div>

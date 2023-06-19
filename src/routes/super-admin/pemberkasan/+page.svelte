@@ -103,7 +103,7 @@
 							</div>
 						</div>
 						{#each pemberkasanList as pemberkasan}
-						<a href="/super-admin/pemberkasan/detail-pemberkasan" class="no-decor">
+						<a href="/super-admin/pemberkasan/detail-pemberkasan/{pemberkasan.id_nup}" class="no-decor">
 							<div class="card-head w-content height-fit">
 								<div class="flex">
 									<div class="flex flex-gap-small flex-center-vertical w-10 no-border-table">
